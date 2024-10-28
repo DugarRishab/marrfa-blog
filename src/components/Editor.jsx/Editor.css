@@ -1,0 +1,19 @@
+.editor-wrapper{
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: center;
+	width: min(100%, 1600px);
+	height: fit-content;
+	border: 0px solid red;
+	gap: 2rem;
+	margin-top: 60px;
+}
+.editor-wrapper .editor{
+	flex: 1;
+	/* border-right: 1px solid rgba(0, 0, 0, 0.2); */
+	padding: 2rem;
+}
+.editor-wrapper .viewer{
+	flex: 1;
+}
