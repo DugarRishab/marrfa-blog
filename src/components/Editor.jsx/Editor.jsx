@@ -17,11 +17,16 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import "./Editor.css";
 import { createBlog, updateBlog } from "../../service/api";
+import TextArea from "antd/es/input/TextArea";
+import FormItemLabel from "antd/es/form/FormItemLabel";
 
 const { Title } = Typography;
 
 const BlogEditor = ({ blog }) => {
 	const [name, setName] = useState((blog && blog.name) || "");
+	const [description, setDescription] = useState(
+		(blog && blog.description) || ""
+	);
 	const [coverImgFile, setCoverImgFile] = useState(null); // File object for cover image
 	const [coverImgPreview, setCoverImgPreview] = useState(
 		(blog && blog.coverImg) || ""
@@ -59,6 +64,7 @@ const BlogEditor = ({ blog }) => {
 		const formData = new FormData();
 		formData.append("name", name);
 		formData.append("content", content);
+		formData.append("description", description);
 		tags.forEach((tag, i) => {
 			formData.append(`tags[${i}]`, tag);
 		});
@@ -104,7 +110,15 @@ const BlogEditor = ({ blog }) => {
 						Upload Cover Image
 					</Button>
 				</Upload>
-				<Divider />
+				<br />
+				<TextArea
+					placeholder="Add a short description here ... "
+					value={description}
+					onChange={(e) => setDescription(e.target.value)}
+				></TextArea>
+				{/* <Divider /> */}
+				<br />
+				<br />
 				{/* Blog Content Editor */}
 				<ReactQuill
 					theme="snow"

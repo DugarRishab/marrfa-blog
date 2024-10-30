@@ -2,29 +2,31 @@ import React, { useState, useEffect } from "react";
 import { Button, message } from "antd";
 import { deleteBlog, getBlogs, updateBlog } from "../../service/api";
 import "./BlogsPage.css";
-import { DeleteOutlined, EditOutlined, CloudUploadOutlined } from "@ant-design/icons";
+import {
+	DeleteOutlined,
+	EditOutlined,
+	CloudUploadOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
-const BlogCard = ({blog}) => {
+const BlogCard = ({ blog }) => {
 	const navigate = useNavigate();
 
 	const handleDeleteBlog = async () => {
 		try {
 			await deleteBlog(blog._id);
-			navigate('/');
-		}
-		catch (error) {
+			navigate("/");
+		} catch (error) {
 			message.error(
 				"Error deleting blog:",
 				error.reponse.data.message || error.message
 			);
 		}
-	}
+	};
 
 	const handleEditBlog = () => {
 		navigate("/edit/" + blog._id);
-
-	}
+	};
 
 	const handlePublishBlog = async () => {
 		try {
@@ -36,8 +38,7 @@ const BlogCard = ({blog}) => {
 				error.reponse.data.message || error.message
 			);
 		}
-	}
-
+	};
 
 	return (
 		<div className="blog-card">
@@ -49,17 +50,33 @@ const BlogCard = ({blog}) => {
 				<div className="name">{blog.name}</div>
 
 				{/* {blog.content} */}
-				{/* <div
-					className="description"
-					dangerouslySetInnerHTML={{ __html: blog.content }}
-				></div> */}
+				<div className="description">{blog.description}</div>
 
 				<Button.Group className="action">
-					<Button variant="filled" icon={<EditOutlined />} onClick={handleEditBlog}>Edit</Button>
-					<Button color='danger' variant="filled" onClick={handleDeleteBlog} icon={<DeleteOutlined></DeleteOutlined>}>
+					<Button
+						variant="filled"
+						icon={<EditOutlined />}
+						onClick={handleEditBlog}
+					>
+						Edit
+					</Button>
+					<Button
+						color="danger"
+						variant="filled"
+						onClick={handleDeleteBlog}
+						icon={<DeleteOutlined></DeleteOutlined>}
+					>
 						Delete
 					</Button>
-					<Button onClick={handlePublishBlog} disabled={blog.active} variant="filled" type="primary" icon={<CloudUploadOutlined />}>Publish</Button>
+					<Button
+						onClick={handlePublishBlog}
+						disabled={blog.active}
+						variant="filled"
+						type="primary"
+						icon={<CloudUploadOutlined />}
+					>
+						{blog.active ? 'published' : 'Publish'}
+					</Button>
 				</Button.Group>
 			</div>
 		</div>
@@ -68,7 +85,6 @@ const BlogCard = ({blog}) => {
 
 const BlogsPage = () => {
 	const [blogs, setBlogs] = useState([]);
-	
 
 	const handleGetBlogs = async () => {
 		try {
@@ -93,7 +109,6 @@ const BlogsPage = () => {
 				{blogs.map((blog, i) => (
 					<BlogCard key={i} blog={blog}></BlogCard>
 				))}
-				
 			</div>
 		</div>
 	);
